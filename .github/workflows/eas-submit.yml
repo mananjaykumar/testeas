@@ -1,0 +1,51 @@
+name: EAS Submit
+
+on:
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Platform to submit for'
+        required: true
+        type: choice
+        options:
+        - android
+        - ios
+        - all
+      profile:
+        description: 'Submit profile'
+        required: true
+        default: 'production'
+        type: choice
+        options:
+        - production
+
+jobs:
+  submit:
+    name: Submit to stores
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Setup Expo CLI
+        uses: expo/expo-github-action@v8
+        with:
+          eas-version: latest
+          token: ${{ secrets.EXPO_TOKEN }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Submit to stores
+        run: |
+          if [ "${{ inputs.platform }}" = "all" ]; then
+            eas submit --platform all --profile ${{ inputs.profile }} --non-interactive
+          else
+            eas submit --platform ${{ inputs.platform }} --profile ${{ inputs.profile }} --non-interactive
+          fi
