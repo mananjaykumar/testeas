@@ -1,50 +1,84 @@
-# Welcome to your Expo app 👋
+# EAS GitHub Actions Automation
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Automated EAS builds and deployments using GitHub Actions.
 
-## Get started
+## 🚀 **How It Works**
 
-1. Install dependencies
+### **Automatic Triggers**
+- **Push to `develop`**: Builds development versions for testing
+- **Push to `main`**: Builds + deploys to production + publishes updates
+- **Pull Request to `main`**: Runs pre-build checks only
 
-   ```bash
-   npm install
-   ```
+### **Manual Triggers**
+- **Build**: Choose platform (Android/iOS/all) and profile (development/production)
+- **Deploy**: Automatic deployment on main branch with production profile
 
-2. Start the app
+## ⚙️ **Setup**
 
-   ```bash
-   npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+### **1. Add Expo Token**
 ```bash
-npm run reset-project
+# Get token from: https://expo.dev/accounts/[username]/settings/access-tokens
+# Add to GitHub Secrets as: EXPO_TOKEN
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### **2. Configure GitHub Secrets**
+- Go to repo Settings → Secrets → Actions
+- Add `EXPO_TOKEN` with your Expo access token
 
-## Learn more
+## 🔄 **Workflow Steps**
 
-To learn more about developing your project with Expo, look at the following resources:
+### **Pre-build (All triggers)**
+1. ✅ Code checkout
+2. ✅ Dependencies install
+3. ✅ Linting
+4. ✅ Tests (if available)
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+### **Build (Push/Manual)**
+1. ✅ EAS build for selected platforms
+2. ✅ Development profile for auto-triggers
+3. ✅ Custom profile for manual triggers
 
-## Join the community
+### **Deploy (Main branch only)**
+1. ✅ EAS Update publish
+2. ✅ App store submission (production only)
 
-Join our community of developers creating universal apps.
+## 📋 **Usage**
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+### **Development**
+```bash
+git push origin develop
+# → Builds development versions for testing
+```
+
+### **Production**
+```bash
+git push origin main
+# → Builds + deploys + publishes updates
+```
+
+### **Manual Build**
+1. Go to Actions → EAS Build & Deploy → Run workflow
+2. Select platform and profile
+3. Click "Run workflow"
+
+## 🎯 **Benefits**
+
+- ✅ **Automated**: No manual builds needed
+- ✅ **Integrated**: Git-based triggers
+- ✅ **Flexible**: Manual control when needed
+- ✅ **Complete**: Build, deploy, and update pipeline
+- ✅ **Safe**: Pre-build checks and conditional deployments
+
+## 🔧 **Configuration**
+
+### **Build Profiles**
+- `development`: Internal distribution, debug builds
+- `preview`: Internal distribution, release builds for testing
+- `production`: Store distribution, release builds
+
+### **Platforms**
+- `android`: Android APK/AAB
+- `ios`: iOS app
+- `all`: Both platforms
+
+The workflow automatically handles the complete CI/CD pipeline for your Expo app!
