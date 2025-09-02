@@ -56,5 +56,5 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             eas build --platform ${{ inputs.platform }} --profile ${{ inputs.profile }} --non-interactive
           else
-            eas build --platform all --profile development --non-interactive
+            eas build --platform android --profile development --non-interactive
           fi
