@@ -54,7 +54,7 @@ jobs:
       - name: Build with EAS
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            eas build --platform ${{ inputs.platform }} --profile ${{ inputs.profile }} --non-interactive
+            eas build --platform ${{ inputs.platform }} --profile ${{ inputs.profile }}
           else
-            eas build --platform all --profile development --non-interactive
+            eas build --platform all --profile development
           fi
