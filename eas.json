@@ -40,7 +40,7 @@
     "production": {
       "distribution": "store",
       "android": {
-        "buildType": "aab",
+        "buildType": "app-bundle",
         "credentialsSource": "remote"
       },
       "ios": {
