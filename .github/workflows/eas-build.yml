@@ -10,7 +10,7 @@ on:
       platform:
         description: 'Platform to build for'
         required: true
-        default: 'all'
+        default: 'android'
         type: choice
         options:
         - all
@@ -54,7 +54,7 @@ jobs:
       - name: Build with EAS
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            eas build --platform ${{ inputs.platform }} --profile ${{ inputs.profile }}
+            eas build --platform ${{ inputs.platform }} --profile ${{ inputs.profile }} --non-interactive
           else
-            eas build --platform all --profile development
+            eas build --platform all --profile development --non-interactive
           fi
